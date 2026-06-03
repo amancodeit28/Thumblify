@@ -1,0 +1,17 @@
+# Node modules
+node_modules/
+client/node_modules/
+server/node_modules/
+
+# Local Environment Secrets
+.env
+server/.env
+
+# Local Cache / Uploads
+server/public/uploads/*
+!server/public/uploads/.gitkeep
+
+# Build Directories
+client/dist/
+client/build/
+.vercel
