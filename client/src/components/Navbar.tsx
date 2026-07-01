@@ -43,7 +43,7 @@ export default function Navbar() {
                     to="/"
                     className="text-2xl font-bold text-pink-500"
                 >
-                    Thumblify
+                    ClickCraft
                 </Link>
 
                 {/* Desktop Navigation */}

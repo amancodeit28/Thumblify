@@ -46,7 +46,7 @@ export default function Footer() {
                         <LinkedinIcon className="size-5 hover:text-pink-500" />
                     </a>
                 </div>
-                <p className="mt-3 text-center">&copy; {new Date().getFullYear()} <a href="https://prebuiltui.com?utm_source=pixels">Thumblify</a></p>
+                <p className="mt-3 text-center">&copy; {new Date().getFullYear()} ClickCraft</p>
             </motion.div>
         </footer>
     );

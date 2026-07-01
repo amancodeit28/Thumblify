@@ -213,7 +213,7 @@ export default function PricingSection() {
                                             <div className="size-10 rounded bg-white/10 border border-white/20 flex items-center justify-center font-bold italic tracking-wider text-xs">
                                                 CHIP
                                             </div>
-                                            <span className="text-[10px] font-extrabold uppercase tracking-widest text-zinc-300">ThumblifyPay</span>
+                                            <span className="text-[10px] font-extrabold uppercase tracking-widest text-zinc-300">ClickCraftPay</span>
                                         </div>
 
                                         <div className="space-y-4">
