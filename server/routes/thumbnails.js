@@ -44,6 +44,14 @@ router.post("/generate", protect, async (req, res) => {
         return res.status(400).json({ message: "Title and Style are required" });
     }
 
+    // Check credits and plan status
+    const isPremiumPlan = req.user.plan === "Pro" || req.user.plan === "Enterprise";
+    if (!isPremiumPlan && (!req.user.credits || req.user.credits <= 0)) {
+        return res.status(403).json({ 
+            message: "Insufficient credits. Please upgrade to a pricing plan to continue generating thumbnails." 
+        });
+    }
+
     try {
         // 1. Construct prompt context
         const styleText = stylePrompts[style] || style;
@@ -161,6 +169,13 @@ Respond ONLY with the final optimized image prompt text. Do not include introduc
             user_prompt: additionalDetails,
         });
 
+        // 6. Deduct credit for Free/Basic plans
+        const isPremiumPlan = req.user.plan === "Pro" || req.user.plan === "Enterprise";
+        if (!isPremiumPlan) {
+            req.user.credits = Math.max(0, req.user.credits - 1);
+            await req.user.save();
+        }
+
         res.status(201).json(thumbnail);
     } catch (error) {
         console.error("Generation failed:", error);
@@ -168,12 +183,22 @@ Respond ONLY with the final optimized image prompt text. Do not include introduc
     }
 });
 
-// @desc    Get user's generations
+// @desc    Get user's generations (with optional folder filtering)
 // @route   GET /api/thumbnails/my-generations
 // @access  Private
 router.get("/my-generations", protect, async (req, res) => {
     try {
-        const thumbnails = await Thumbnail.find({ userId: req.user._id }).sort({ createdAt: -1 });
+        const query = { userId: req.user._id };
+
+        if (req.query.folderId) {
+            if (req.query.folderId === "unorganized") {
+                query.folderId = null;
+            } else {
+                query.folderId = req.query.folderId;
+            }
+        }
+
+        const thumbnails = await Thumbnail.find(query).sort({ createdAt: -1 });
         res.json(thumbnails);
     } catch (error) {
         res.status(500).json({ message: error.message });
@@ -250,6 +275,32 @@ router.delete("/:id", protect, async (req, res) => {
 
         await thumbnail.deleteOne();
         res.json({ message: "Thumbnail removed successfully" });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
+// @desc    Move thumbnail to another folder
+// @route   PUT /api/thumbnails/:id/move
+// @access  Private
+router.put("/:id/move", protect, async (req, res) => {
+    const { folderId } = req.body; // Expects ObjectId of Folder, or null to remove from folder
+
+    try {
+        const thumbnail = await Thumbnail.findById(req.params.id);
+
+        if (!thumbnail) {
+            return res.status(404).json({ message: "Thumbnail not found" });
+        }
+
+        if (thumbnail.userId.toString() !== req.user._id.toString()) {
+            return res.status(401).json({ message: "Not authorized" });
+        }
+
+        thumbnail.folderId = folderId || null;
+        await thumbnail.save();
+
+        res.json(thumbnail);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }

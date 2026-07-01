@@ -53,6 +53,8 @@ export interface IUser {
     name: string;
     email: string;
     password?: string;
+    credits?: number;
+    plan?: string;
     createdAt?: Date;
     updatedAt?: Date;
 }

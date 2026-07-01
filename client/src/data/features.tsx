@@ -1,5 +1,6 @@
 import type { IFeature } from "../types";
 
+
 export const featuresData: IFeature[] = [
     {
         icon: "/assets/zap-icon.svg",

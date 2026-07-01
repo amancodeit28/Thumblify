@@ -7,6 +7,8 @@ import fs from "fs";
 import connectDB from "./config/db.js";
 import authRoutes from "./routes/auth.js";
 import thumbnailRoutes from "./routes/thumbnails.js";
+import folderRoutes from "./routes/folders.js";
+import billingRoutes from "./routes/billing.js";
 
 // Load Environment Configuration
 dotenv.config();
@@ -27,7 +29,7 @@ if (!fs.existsSync(uploadsDir)) {
 
 // Middleware
 app.use(cors({
-    origin: ["http://localhost:5173", "http://127.0.0.1:5173"],
+    origin: ["http://localhost:5173", "http://127.0.0.1:5173", "http://localhost:5175", "http://127.0.0.1:5175"],
     credentials: true
 }));
 app.use(express.json());
@@ -39,6 +41,8 @@ app.use("/uploads", express.static(uploadsDir));
 // Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/thumbnails", thumbnailRoutes);
+app.use("/api/folders", folderRoutes);
+app.use("/api/billing", billingRoutes);
 
 // Health check endpoint
 app.get("/health", (req, res) => {

@@ -9,6 +9,23 @@ export default function Navbar() {
     const navigate = useNavigate();
     const { user, logout } = useAuth();
 
+    const renderCreditsBadge = () => {
+        if (!user) return null;
+        const isPremium = user.plan === "Pro" || user.plan === "Enterprise";
+        if (isPremium) {
+            return (
+                <span className="px-2.5 py-0.5 text-[10px] font-extrabold bg-linear-to-r from-pink-500 to-rose-500 text-white rounded-full shadow-lg shadow-pink-500/20 uppercase tracking-wider border border-pink-400/25">
+                    {user.plan}
+                </span>
+            );
+        }
+        return (
+            <span className="px-2.5 py-0.5 text-[11px] font-medium bg-white/5 text-pink-300 border border-pink-500/20 rounded-full">
+                Credits: {user.credits !== undefined ? user.credits : 5}
+            </span>
+        );
+    };
+
     return (
         <>
             <motion.nav
@@ -64,6 +81,7 @@ export default function Navbar() {
                 {user ? (
                     <div className="hidden md:flex items-center gap-4">
                         <span className="text-zinc-200">Hi, <span className="font-semibold text-pink-400">{user.name}</span></span>
+                        {renderCreditsBadge()}
                         <button
                             onClick={logout}
                             className="px-5 py-2 bg-pink-950/40 text-pink-200 border border-pink-600/30 hover:border-pink-500 hover:bg-pink-600 hover:text-white active:scale-95 transition-all rounded-full"
@@ -129,6 +147,7 @@ export default function Navbar() {
                 {user ? (
                     <div className="flex flex-col items-center gap-3">
                         <span className="text-zinc-400">Hi, {user.name}</span>
+                        {renderCreditsBadge()}
                         <button
                             onClick={() => {
                                 logout();

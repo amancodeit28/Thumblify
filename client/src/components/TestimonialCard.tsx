@@ -27,3 +27,4 @@ export default function TestimonialCard({ testimonial, index }: TestimonialCardP
         </motion.div>
     );
 }
+

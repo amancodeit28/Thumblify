@@ -9,7 +9,7 @@ import { useAuth, API_BASE_URL, API_ORIGIN } from "../context/AuthContext";
 const Generate = () => {
     const { id } = useParams();
     const navigate = useNavigate();
-    const { token } = useAuth();
+    const { token, user, refreshUser } = useAuth();
 
     // Form states
     const [title, setTitle] = useState("");
@@ -73,6 +73,15 @@ const Generate = () => {
 
     const handleGenerate = async (e: React.FormEvent) => {
         e.preventDefault();
+
+        // Validate user credits
+        const isPremium = user?.plan === "Pro" || user?.plan === "Enterprise";
+        const hasCredits = user?.credits !== undefined && user.credits > 0;
+        if (!isPremium && !hasCredits) {
+            setError("You have run out of credits! Please purchase a pricing plan to continue generating thumbnails.");
+            return;
+        }
+
         if (!title.trim()) {
             setError("Please provide a title or topic for your thumbnail");
             return;
@@ -124,6 +133,9 @@ const Generate = () => {
             if (!response.ok) {
                 throw new Error(data.message || "Failed to generate thumbnail");
             }
+
+            // Sync credits state with Navbar
+            await refreshUser();
 
             setThumbnail(data);
             navigate(`/generate/${data._id}`);

@@ -1,7 +1,7 @@
 'use client'
 import { CheckIcon, ChevronRightIcon, VideoIcon } from "lucide-react";
 import TiltedImage from "../components/TiltImage";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import { useNavigate } from "react-router-dom";
 
 export default function HeroSection() {
@@ -27,7 +27,7 @@ export default function HeroSection() {
                     NEW
                 </span>
                 <p className="flex items-center gap-1">
-                    <span>Generate your first thumbnail for free</span>
+                    <span>Generate your first thunbnail for free</span>
                     <ChevronRightIcon size={16} className="group-hover:translate-x-0.5 transition duration-300" />
                 </p>
             </motion.a>
@@ -57,7 +57,7 @@ export default function HeroSection() {
                 </button>
                 <button className="flex items-center gap-2 border border-pink-900 hover:bg-pink-950/50 transition rounded-full px-6 h-11">
                     <VideoIcon strokeWidth={1} />
-                    <span>See how it works</span>
+                    <span>See hoe it works</span>
                 </button>
             </motion.div>
 
