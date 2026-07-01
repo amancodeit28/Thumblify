@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Download, Eye, Trash2, Sparkles, AlertCircle, FolderPlus, Folder, FolderOpen, Search, ArrowUpDown, ChevronRight, X } from "lucide-react";
+import { motion, AnimatePresence } from "motion/react";
 import SoftBackdrop from "../components/SoftBackdrop";
 import { useAuth, API_BASE_URL, API_ORIGIN } from "../context/AuthContext";
 import type { IThumbnail } from "../assets/assets";

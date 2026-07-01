@@ -1,5 +1,5 @@
 import { footerData } from "../data/footer";
-import { DribbbleIcon, LinkedinIcon, TwitterIcon, YoutubeIcon } from "lucide-react";
+import { DribbbleIcon, LinkedinIcon } from "lucide-react";
 import { motion } from "motion/react";
 import type { IFooterLink } from "../types";
 import { Link } from "react-router-dom";
@@ -42,14 +42,8 @@ export default function Footer() {
                     <a href="https://dribbble.com/prebuiltui" target="_blank" rel="noreferrer">
                         <DribbbleIcon className="size-5 hover:text-pink-500" />
                     </a>
-                    <a href="https://www.linkedin.com/company/prebuiltui" target="_blank" rel="noreferrer">
+                    <a href="https://www.linkedin.com/in/aman-sharma-sde/" target="_blank" rel="noreferrer">
                         <LinkedinIcon className="size-5 hover:text-pink-500" />
-                    </a>
-                    <a href="https://x.com/prebuiltui" target="_blank" rel="noreferrer">
-                        <TwitterIcon className="size-5 hover:text-pink-500" />
-                    </a>
-                    <a href="https://www.youtube.com/@prebuiltui" target="_blank" rel="noreferrer">
-                        <YoutubeIcon className="size-6 hover:text-pink-500" />
                     </a>
                 </div>
                 <p className="mt-3 text-center">&copy; {new Date().getFullYear()} <a href="https://prebuiltui.com?utm_source=pixels">Thumblify</a></p>

@@ -29,7 +29,19 @@ if (!fs.existsSync(uploadsDir)) {
 
 // Middleware
 app.use(cors({
-    origin: ["http://localhost:5173", "http://127.0.0.1:5173", "http://localhost:5175", "http://127.0.0.1:5175"],
+    origin: function (origin, callback) {
+        // Allow requests with no origin (mobile apps, curl, etc.)
+        if (!origin) return callback(null, true);
+        // Allow any localhost/127.0.0.1 origin on any port
+        if (origin.match(/^https?:\/\/(localhost|127\.0\.0\.1|\[::1\])(:\d+)?$/)) {
+            return callback(null, true);
+        }
+        // Allow Vercel deployed frontend
+        if (origin.match(/\.vercel\.app$/)) {
+            return callback(null, true);
+        }
+        callback(null, true); // Allow all for development
+    },
     credentials: true
 }));
 app.use(express.json());

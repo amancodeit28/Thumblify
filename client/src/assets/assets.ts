@@ -44,6 +44,7 @@ export interface IThumbnail {
     image_url?: string;
     prompt_used?: string;
     user_prompt?: string;
+    folderId?: string | null;
     isGenerating?: boolean;
     createdAt?: Date;
     updatedAt?: Date;
