@@ -133,7 +133,7 @@ Respond ONLY with the final optimized image prompt text. Do not include introduc
             }
         }
 
-        // Fallback to local storage if Cloudinary is not configured or failed
+        // Fallback to base64 Data URI if Cloudinary is not configured or failed
         if (!storedUrl) {
             const response = await axios({
                 method: "get",
@@ -142,21 +142,8 @@ Respond ONLY with the final optimized image prompt text. Do not include introduc
                 timeout: 25000 // 25 seconds timeout
             });
 
-            // Ensure uploads directory exists
-            const uploadsDir = process.env.VERCEL 
-                ? "/tmp" 
-                : path.join(__dirname, "../public/uploads");
-                
-            if (!process.env.VERCEL && !fs.existsSync(uploadsDir)) {
-                fs.mkdirSync(uploadsDir, { recursive: true });
-            }
-
-            const filename = `thumb-${Date.now()}-${Math.floor(Math.random() * 1000)}.jpg`;
-            const localPath = path.join(uploadsDir, filename);
-            fs.writeFileSync(localPath, response.data);
-
-            // Store relative URL for database
-            storedUrl = `/uploads/${filename}`;
+            const base64Image = Buffer.from(response.data).toString("base64");
+            storedUrl = `data:image/jpeg;base64,${base64Image}`;
         }
 
         // 5. Create DB Record

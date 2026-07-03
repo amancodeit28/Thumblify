@@ -67,7 +67,7 @@ const Generate = () => {
     // Helper to resolve backend image URL
     const getImageUrl = (url: string | undefined) => {
         if (!url) return "";
-        if (url.startsWith("http")) return url;
+        if (url.startsWith("http") || url.startsWith("data:")) return url;
         return `${API_ORIGIN}${url}`;
     };
 
