@@ -78,6 +78,9 @@ app.use((err, req, res, next) => {
 // Export app for serverless environments (Vercel)
 export default app;
 
-app.listen(PORT, () => {
-    console.log(`Server running in development mode on http://localhost:${PORT}`);
-});
+// Only start the server when running locally (not in Vercel serverless)
+if (!process.env.VERCEL) {
+    app.listen(PORT, () => {
+        console.log(`Server running in development mode on http://localhost:${PORT}`);
+    });
+}
