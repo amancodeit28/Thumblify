@@ -3,6 +3,11 @@
   "installCommand": "npm install --prefix client && npm install --prefix server",
   "buildCommand": "cd client && npx vite build",
   "outputDirectory": "client/dist",
+  "functions": {
+    "api/index.js": {
+      "includeFiles": "server/**"
+    }
+  },
   "routes": [
     {
       "src": "/api/(.*)",
