@@ -19,10 +19,13 @@ connectDB().catch(err => console.error("MongoDB connection error:", err.message)
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Setup directories (skip on Vercel where filesystem is read-only)
+// Setup directories (use /tmp on Vercel which is writeable)
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const uploadsDir = path.join(__dirname, "public/uploads");
+const uploadsDir = process.env.VERCEL 
+    ? "/tmp" 
+    : path.join(__dirname, "public/uploads");
+
 if (!process.env.VERCEL) {
     if (!fs.existsSync(uploadsDir)) {
         fs.mkdirSync(uploadsDir, { recursive: true });

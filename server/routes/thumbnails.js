@@ -143,8 +143,11 @@ Respond ONLY with the final optimized image prompt text. Do not include introduc
             });
 
             // Ensure uploads directory exists
-            const uploadsDir = path.join(__dirname, "../public/uploads");
-            if (!fs.existsSync(uploadsDir)) {
+            const uploadsDir = process.env.VERCEL 
+                ? "/tmp" 
+                : path.join(__dirname, "../public/uploads");
+                
+            if (!process.env.VERCEL && !fs.existsSync(uploadsDir)) {
                 fs.mkdirSync(uploadsDir, { recursive: true });
             }
 
@@ -267,7 +270,10 @@ router.delete("/:id", protect, async (req, res) => {
             }
         } else {
             const filename = path.basename(thumbnail.image_url);
-            const filePath = path.join(__dirname, "../public/uploads", filename);
+            const uploadsDir = process.env.VERCEL 
+                ? "/tmp" 
+                : path.join(__dirname, "../public/uploads");
+            const filePath = path.join(uploadsDir, filename);
             if (fs.existsSync(filePath)) {
                 fs.unlinkSync(filePath);
             }
