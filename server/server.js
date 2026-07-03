@@ -19,12 +19,14 @@ connectDB();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Setup directories
+// Setup directories (skip on Vercel where filesystem is read-only)
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const uploadsDir = path.join(__dirname, "public/uploads");
-if (!fs.existsSync(uploadsDir)) {
-    fs.mkdirSync(uploadsDir, { recursive: true });
+if (!process.env.VERCEL) {
+    if (!fs.existsSync(uploadsDir)) {
+        fs.mkdirSync(uploadsDir, { recursive: true });
+    }
 }
 
 // Middleware
