@@ -14,7 +14,7 @@ import billingRoutes from "./routes/billing.js";
 dotenv.config();
 
 // Connect to MongoDB
-connectDB();
+connectDB().catch(err => console.error("MongoDB connection error:", err.message));
 
 const app = express();
 const PORT = process.env.PORT || 5000;
