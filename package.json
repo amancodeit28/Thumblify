@@ -2,6 +2,7 @@
   "name": "clickcraft-monorepo",
   "version": "1.0.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "build:client": "cd client && npm run build",
     "start:server": "cd server && npm start",
